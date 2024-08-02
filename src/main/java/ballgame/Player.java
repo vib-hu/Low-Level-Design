@@ -1,4 +1,4 @@
-package org.example;
+package ballgame;
 
 public class Player {
     public String Name;

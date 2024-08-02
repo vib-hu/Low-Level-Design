@@ -1,4 +1,4 @@
-package org.example;
+package ballgame;
 
 public class Ball {
     public Player Bowler;
