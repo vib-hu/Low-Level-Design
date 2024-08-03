@@ -5,58 +5,48 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class ParkingSpot {
-    private int id;
-    private ParkingSpotStatus status;
-    private VehicleType spotType;
-    private float parkingPerHour;
-    private LocalDateTime parkingTime;
-    private LocalDateTime releaseTime;
-    private Vehicle vehicle;
 
-    public ParkingSpot(int id, VehicleType spotType, float parkingPerHour){
-        this.id = id;
-        this.status = ParkingSpotStatus.Available;
-        this.spotType = spotType;
-        this.parkingPerHour = parkingPerHour;
+    private final int spotNumber;
+    private final VehicleType vehicleType;
+    private Vehicle parkedVehicle;
+
+    public ParkingSpot(int spotNumber, VehicleType spotType){
+        this.spotNumber = spotNumber;
+        this.vehicleType = spotType;
     }
 
-    public void parkVehicle(Vehicle vehicle){
-        this.vehicle = vehicle;
-    }
-
-    public float calculateParkingPriceTillNow(){
-        return calculatePrice(parkingTime, LocalDateTime.now());
-    }
-
-    public float calculateParkingPrice(){
-       return calculatePrice(parkingTime, releaseTime);
+    public synchronized void parkVehicle(Vehicle vehicle){
+        if(isAvailable() && vehicle.getType().equals(vehicleType))
+            parkedVehicle = vehicle;
+        else
+            throw new IllegalArgumentException("Invalid vehicle type or spot already occupied");
     }
 
     public boolean isAvailable(){
-        return status==ParkingSpotStatus.Available;
+        return parkedVehicle == null;
     }
 
-    public float releaseSpot(){
-        releaseTime = LocalDateTime.now();
-        float parkingPrice = calculateParkingPrice();
-
-        status = ParkingSpotStatus.Available;
-        vehicle = null;
-        parkingTime = null;
-        return parkingPrice;
+    public boolean isAvailableForVehicleType(VehicleType vehicleType){
+        return isAvailable() && this.vehicleType.equals(vehicleType);
     }
 
-    public void reserveSpot(){
-        status = ParkingSpotStatus.Reserved;
+   public void unparkVehicle(){
+       parkedVehicle = null;
+   }
+
+   public VehicleType getVehicleType(){
+        return vehicleType;
+   }
+
+   public Vehicle getParkedVehicle(){
+        return parkedVehicle;
+   }
+
+    public boolean hasParkedVehicle(Vehicle vehicle){
+        return parkedVehicle!=null && parkedVehicle.getLicensePlate().equals(vehicle.getLicensePlate());
     }
 
-    private float calculatePrice(LocalDateTime startDatetime, LocalDateTime endDatetime){
-        Duration duration =  Duration.between(startDatetime, endDatetime);
-        long minutes = duration.toMinutes();
-        if(minutes<60)
-            return parkingPerHour;
-        long fullHours = (minutes/60);
-        long partialHours = (minutes%60);
-        return fullHours*parkingPerHour+partialHours>0?parkingPerHour:0;
-    }
+   public int getSpotNumber(){
+        return spotNumber;
+   }
 }
