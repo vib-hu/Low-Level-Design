@@ -10,7 +10,7 @@ public class IdleState extends VendingMachineState {
 
     @Override
     public void selectProduct(Product product) {
-       if(machine.getInventory().isProductAvailable(product)){
+       if(machine.getInventory().checkAvailability(product)){
            machine.setSelectedProduct(product);
            machine.setState(machine.getProductSelectedState());
            System.out.println("Product selected "+product.getName());

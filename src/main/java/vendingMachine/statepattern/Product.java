@@ -2,9 +2,9 @@ package vendingMachine.statepattern;
 
 public class Product {
     private final String name;
-    private final Money price;
+    private final float price;
 
-    public Product(String name, Money price){
+    public Product(String name, float price){
         this.name = name;
         this.price = price;
     }
@@ -13,7 +13,7 @@ public class Product {
          return name;
     }
 
-    public Money getPrice(){
+    public float getPrice(){
         return price;
     }
 }

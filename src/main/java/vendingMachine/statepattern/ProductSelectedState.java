@@ -19,20 +19,21 @@ public class ProductSelectedState extends VendingMachineState {
         for(Money item:money){
             totalMoney += item.getValue();
         }
-        if(totalMoney<machine.getSelectedProduct().getPrice().getValue()){
+        if(totalMoney<machine.getSelectedProduct().getPrice()){
             throw new IllegalArgumentException("Money is not enough");
         }
 
         machine.addMoney(money);
+        machine.setState(machine.getMoneyInsertedState());
     }
 
     @Override
     public void dispenseProduct() {
-
+        System.out.println("Insert money first");
     }
 
     @Override
     public void dispenseChange() {
-
+        System.out.println("Insert money first");
     }
 }

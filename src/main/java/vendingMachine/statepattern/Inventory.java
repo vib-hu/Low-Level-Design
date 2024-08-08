@@ -22,7 +22,21 @@ public class Inventory {
       }
    }
 
-   public boolean isProductAvailable(Product product){
+   public boolean checkAvailability(Product product){
       return products.containsKey(product.getName()) && !products.get(product.getName()).isEmpty();
+   }
+
+   public Product removeProduct(String name){
+      if(!products.containsKey(name))
+            throw new IllegalArgumentException("invalid product name");
+      return products.get(name).remove(0);
+   }
+
+   public HashMap<String, Integer> getProductsAvailability(){
+      HashMap<String, Integer> productsAvailability = new HashMap<>();
+      for(Map.Entry<String, ArrayList<Product>> entry:products.entrySet()){
+         productsAvailability.put(entry.getKey(), entry.getValue().size());
+      }
+      return productsAvailability;
    }
 }
