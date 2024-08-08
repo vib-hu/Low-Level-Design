@@ -1,4 +1,4 @@
-package vendingMachine.statepattern;
+package vendingMachine;
 
 import java.util.*;
 public abstract class VendingMachineState {

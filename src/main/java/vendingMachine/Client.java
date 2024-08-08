@@ -5,56 +5,38 @@ import java.util.ArrayList;
 public class Client {
 
     public static void main(String[] args){
-        Product biscuit = new Product("Food-1","Biscuit", 11);
-        Product anotherBiscuit = new Product("Food-1","Biscuit", 11);
-        Product thirdBiscuit = new Product("Food-1","Biscuit", 11);
+        ArrayList<Product> oreos = productBuilder("Oreo", 12, 3);
+        ArrayList<Product> peanuts = productBuilder("Peanuts", 3, 4);
 
-        Product maggie = new Product("Food-2","Maggie", 20);
+        VendingMachine machine = VendingMachine.getInstance();
+        machine.addProducts(oreos);
+        machine.addProducts(peanuts);
 
-        VendingMachine machine = new VendingMachine();
-        machine.addProduct(biscuit);
-        machine.addProduct(anotherBiscuit);
-        machine.addProduct(thirdBiscuit);
-        machine.addProduct(maggie);
-
-        machine.displayAvailableProducts();
-
-        machine.selectProduct(biscuit);
-
+        //1nd time
+        machine.selectProduct(oreos.get(0));
         ArrayList<Money> money = new ArrayList<>();
-        money.add(createMoney(5, MoneyType.Coin));
-        money.add(createMoney(5, MoneyType.Coin));
-        money.add(createMoney(1, MoneyType.Coin));
+        money.add(new Money(10, "USD", MoneyType.Note));
+        money.add(new Money(5, "USD", MoneyType.Coin));
         machine.insertMoney(money);
+        machine.dispenseProduct();
+        machine.dispenseChange();
+        machine.displayAvailability();
+        machine.displayCollectedMoney();
 
-        printResult(machine.dispense());
-
-       machine.selectProduct(biscuit);
-
-       money.clear();
-       money.add(createMoney(5, MoneyType.Coin));
-       money.add(createMoney(5, MoneyType.Coin));
-       money.add(createMoney(1, MoneyType.Coin));
-
-       machine.insertMoney(money);
-       printResult(machine.dispense());
-
-        machine.displayAvailableProducts();
-       collectMoney(machine);
+        //2nd time
+        machine.selectProduct(peanuts.get(0));
+        machine.insertMoney(money);
+        machine.dispenseProduct();
+        machine.dispenseChange();
+        machine.displayAvailability();
+        machine.displayCollectedMoney();
     }
 
-    private static Money createMoney(float value, MoneyType moneyType){
-        return new Money(value, "AED", moneyType);
-    }
-
-    private static void printResult(Result result){
-        System.out.println(result.getProduct().getCode());
-        System.out.println(result.getChanges());
-    }
-
-    private static void collectMoney(VendingMachine machine){
-        for (Money money: machine.collectMoney() ){
-            System.out.println(money.getValue() +" "+ money.getType());
+    private static ArrayList<Product> productBuilder(String name, float price, int quantity){
+        ArrayList<Product> products = new ArrayList<>();
+        for(int i=0;i<quantity;i++){
+            products.add(new Product(name, price));
         }
+        return products;
     }
 }
