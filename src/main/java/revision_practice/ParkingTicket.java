@@ -64,9 +64,6 @@ public class ParkingTicket {
         this.cost = cost;
     }
 
-    //Math.random()
-    //Returns: A double value between 0.0 (inclusive) and 1.0 (exclusive)
-    // Example: 0.9999999
     private String generateTicketId(){
         return "T-"+idCounter.getAndIncrement();
     }
