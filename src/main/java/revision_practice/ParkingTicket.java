@@ -1,9 +1,11 @@
 package revision_practice;
 
 import java.math.BigDecimal;
+import java.time.Clock;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class ParkingTicket {
     private final String ticketId;
@@ -13,17 +15,23 @@ public class ParkingTicket {
     private LocalDateTime exitTime;
     private PaymentStatus paymentStatus;
     private BigDecimal cost;
+    private Clock clock;
 
-    public ParkingTicket(Vehicle vehicle, List<ParkingSpot> assignedSpots){
+    //One shared copy: All ParkingTicket objects ever created will share the exact same
+    // idCounter variable because it's static and belongs to class, not Object
+    private static final AtomicLong idCounter = new AtomicLong(1);
+
+    public ParkingTicket(Vehicle vehicle, List<ParkingSpot> assignedSpots, Clock clock){
         this.ticketId = generateTicketId();
         this.vehicle = vehicle;
         this.assignedSpots = assignedSpots;
-        this.entryTime = LocalDateTime.now();
+        this.entryTime = LocalDateTime.now(clock);
         paymentStatus = PaymentStatus.UNPAID;
+        this.clock = clock;
     }
 
     public void markExit(){
-        this.exitTime = LocalDateTime.now();
+        this.exitTime = LocalDateTime.now(clock);
     }
 
     public String getTicketId(){
@@ -35,8 +43,8 @@ public class ParkingTicket {
     }
 
     public long getParkingDurationInMinutes(){
-        LocalDateTime end = exitTime==null? LocalDateTime.now():exitTime;
-        return Duration.between(end, entryTime).toMinutes();
+        LocalDateTime end = exitTime==null? LocalDateTime.now(clock):exitTime;
+        return Duration.between(entryTime, end).toMinutes();
     }
 
     public Vehicle getVehicle(){
@@ -60,6 +68,6 @@ public class ParkingTicket {
     //Returns: A double value between 0.0 (inclusive) and 1.0 (exclusive)
     // Example: 0.9999999
     private String generateTicketId(){
-        return "T-"+System.currentTimeMillis()+"-"+(int)(Math.random()*1000);
+        return "T-"+idCounter.getAndIncrement();
     }
 }

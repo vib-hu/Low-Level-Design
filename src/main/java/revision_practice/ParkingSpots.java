@@ -24,6 +24,12 @@ public class ParkingSpots {
         return availableSpots.get();
     }
 
+    public synchronized void releaseSpots(List<ParkingSpot> spotsToRelease){
+        for (ParkingSpot spot : spotsToRelease) {
+            spot.unParkVehicle();
+        }
+    }
+
     private Optional<List<ParkingSpot>> getConsecutiveSpots(int requiredSpots){
         for(int counter=0;counter<=spots.size()-requiredSpots;counter++){
           List<ParkingSpot> subSpots = spots.subList(counter, counter+requiredSpots);

@@ -1,5 +1,7 @@
 package revision_practice;
 
+import java.time.Clock;
+
 public class Client {
 
     public static void main(String[] args) throws Exception{
@@ -10,7 +12,9 @@ public class Client {
         spots.addSpot(new ParkingSpot(4));
         spots.addSpot(new ParkingSpot(5));
 
-        ParkingLot parkingLot = new ParkingLot(new HourlyPricingStrategy(), spots);
+        //// Test Code Example
+        //Clock fixedClock = Clock.fixed(Instant.parse("2023-10-01T10:00:00Z"), ZoneId.of("UTC"));
+        ParkingLot parkingLot = new ParkingLot(new HourlyPricingStrategy(), spots, Clock.systemDefaultZone());
         ParkingTicket ticket = parkingLot.parkVehicle(new Car("IN-1234"));
         System.out.println(ticket.getTicketId());
         System.out.println(ticket.getAssignedSpots());
