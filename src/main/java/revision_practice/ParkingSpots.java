@@ -11,27 +11,21 @@ public class ParkingSpots {
         spots.add(spot);
     }
 
-    public synchronized void parkVehicle(Vehicle vehicle) throws Exception{
+    public synchronized List<ParkingSpot> parkVehicle(Vehicle vehicle) throws Exception{
         int requiredSpots = vehicle.getSpotsRequired();
         Optional<List<ParkingSpot>> availableSpots = getConsecutiveSpots(requiredSpots);
         if(!availableSpots.isPresent()){
             throw new Exception("Spots not found");
         }
         for(ParkingSpot spot: availableSpots.get()){
+            System.out.println("Parking vehicle "+vehicle.getPlateNumber() +" at spot:"+spot.getId());
             spot.parkVehicle(vehicle);
         }
-    }
-
-    public synchronized void unparkVehicle(Vehicle vehicle) throws Exception{
-        for(ParkingSpot spot: spots){
-            if(spot.getVehicle().equals(vehicle)){
-                spot.unParkVehicle();
-            }
-        }
+        return availableSpots.get();
     }
 
     private Optional<List<ParkingSpot>> getConsecutiveSpots(int requiredSpots){
-        for(int counter=0;counter<spots.size()-requiredSpots;counter++){
+        for(int counter=0;counter<=spots.size()-requiredSpots;counter++){
           List<ParkingSpot> subSpots = spots.subList(counter, counter+requiredSpots);
           if(subSpots.stream().allMatch(p->p.isAvailable())){
                 return Optional.of(subSpots);

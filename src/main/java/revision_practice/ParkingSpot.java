@@ -25,4 +25,8 @@ public class ParkingSpot {
     public boolean isAvailable(){
           return parkedVehicle==null;
     }
+
+    public int getId(){
+        return id;
+    }
 }

@@ -1,6 +1,13 @@
 package revision_practice;
 
 public abstract class Vehicle {
-    public String PlateNumber;
+    private final String plateNumber;
+    public Vehicle(String plateNumber){
+        this.plateNumber = plateNumber;
+    }
+    public String getPlateNumber(){
+        return plateNumber;
+    }
     public abstract int getSpotsRequired();
+
 }
