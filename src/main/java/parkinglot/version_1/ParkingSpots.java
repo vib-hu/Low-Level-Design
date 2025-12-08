@@ -1,4 +1,4 @@
-package revision_practice;
+package parkinglot.version_1;
 
 import java.util.ArrayList;
 import java.util.List;

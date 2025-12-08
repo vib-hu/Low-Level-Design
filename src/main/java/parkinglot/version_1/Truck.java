@@ -1,4 +1,4 @@
-package revision_practice;
+package parkinglot.version_1;
 
 public class Truck extends Vehicle {
     public Truck(String plateNumber){

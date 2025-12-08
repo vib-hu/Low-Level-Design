@@ -1,4 +1,4 @@
-package parkinglot;
+package parkinglot.version_2;
 
 public class Car extends Vehicle {
 

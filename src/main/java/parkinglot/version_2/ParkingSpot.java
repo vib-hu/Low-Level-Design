@@ -1,8 +1,4 @@
-package parkinglot;
-
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+package parkinglot.version_2;
 
 public class ParkingSpot {
 
