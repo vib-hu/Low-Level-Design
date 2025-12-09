@@ -21,6 +21,7 @@ public class VendingMachine {
         this.productSelectedState = new ProductSelectedState(this);
         this.moneyInsertedState = new MoneyInsertedState(this);
         this.productDispensedState = new ProductDispensedState(this);
+
         inventory = new Inventory();
         currentState = idleState;
         selecteProduct = null;

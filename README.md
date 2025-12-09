@@ -24,3 +24,10 @@ Each state can:
 - Transition to the next state
 - Go back to a previous state
 - Cancel and return to idle
+
+### Rule of thumb:
+Include a method in ATMState if:
+  - Its behavior changes based on the current state
+  - It may be invalid in certain states
+  - It triggers state transitions
+  - Whether it's customer-invoked or system-invoked
