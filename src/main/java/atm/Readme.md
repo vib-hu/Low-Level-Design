@@ -55,5 +55,14 @@ These are **instant actions or events**, not waiting conditions.
 
 ---
 
-## Minimal & Clean ATM State Flow
+### Alternate flow Without ErrorState
 
+1. **IdleState** → User inserts card
+2. **CardInsertedState** → User enters PIN
+3. **PinEnteredState** → User enters amount
+4. **AmountEnteredState** → User confirms transaction
+    - **Success Path**: Money deducted → Cash dispensed → Card ejected → Return to IdleState
+    - **Error Path**: Stay in AmountEnteredState
+        - User can retry by changing amount and confirming again
+        - User can cancel and return to IdleState
+        - User can go back to PinEnteredState
